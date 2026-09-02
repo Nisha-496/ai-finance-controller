@@ -1,0 +1,201 @@
+// Prisma schema — AI Finance Controller
+// Entity chain: orders -> transactions -> settlements -> reconciliation_results -> finance_exceptions
+// See ARCHITECTURE.md for the reconciliation rules these tables support.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Orders — from the merchant's order system (one of the three uploaded sources)
+// ---------------------------------------------------------------------------
+model Order {
+  id                   String   @id @default(cuid())
+  orderRef             String   @map("order_ref")
+  normalizedOrderRef   String   @map("normalized_order_ref")
+  amount               Decimal  @db.Decimal(14, 2)
+  currency             String   @default("INR")
+  orderDate            DateTime @map("order_date")
+  customerName         String?  @map("customer_name")
+  rawRow               Json?    @map("raw_row")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  transactions         Transaction[]
+
+  @@index([normalizedOrderRef])
+  @@map("orders")
+}
+
+// ---------------------------------------------------------------------------
+// Transactions — payment records from the payment gateway (second upload source)
+// ---------------------------------------------------------------------------
+model Transaction {
+  id                          String   @id @default(cuid())
+  transactionRef              String   @unique @map("transaction_ref")
+  normalizedTransactionRef    String   @map("normalized_transaction_ref")
+
+  orderId                     String?  @map("order_id")
+  order                       Order?   @relation(fields: [orderId], references: [id])
+
+  // order reference as it appears on the payment record — used for the
+  // Stage 2 priority-3 exact match when transaction/settlement refs don't line up
+  orderRefOnPayment           String?  @map("order_ref_on_payment")
+  normalizedOrderRefOnPayment String?  @map("normalized_order_ref_on_payment")
+
+  amount                      Decimal  @db.Decimal(14, 2)
+  currency                    String   @default("INR")
+  paymentDate                 DateTime @map("payment_date")
+  status                      TransactionStatus @default(SUCCESS)
+
+  rawRow                      Json?    @map("raw_row")
+  createdAt                   DateTime @default(now()) @map("created_at")
+
+  reconciliationResult        ReconciliationResult?
+
+  @@index([normalizedTransactionRef])
+  @@index([normalizedOrderRefOnPayment])
+  @@map("transactions")
+}
+
+enum TransactionStatus {
+  SUCCESS
+  PENDING
+  FAILED
+
+  @@map("transaction_status")
+}
+
+// ---------------------------------------------------------------------------
+// Settlements — payout/settlement records from the gateway or bank (third source)
+// ---------------------------------------------------------------------------
+model Settlement {
+  id                              String   @id @default(cuid())
+  settlementRef                   String   @unique @map("settlement_ref")
+  normalizedSettlementRef         String   @map("normalized_settlement_ref")
+
+  // payment transaction reference as recorded on the settlement — Stage 2 priority-2 match key
+  transactionRefOnSettlement      String?  @map("transaction_ref_on_settlement")
+  normalizedTransactionRefOnSettlement String? @map("normalized_transaction_ref_on_settlement")
+
+  grossAmount                     Decimal  @db.Decimal(14, 2) @map("gross_amount")
+  fee                             Decimal  @db.Decimal(14, 2) @default(0)
+  tax                             Decimal  @db.Decimal(14, 2) @default(0)
+  netAmount                       Decimal  @db.Decimal(14, 2) @map("net_amount")
+  settlementDate                  DateTime @map("settlement_date")
+
+  rawRow                          Json?    @map("raw_row")
+  createdAt                       DateTime @default(now()) @map("created_at")
+
+  reconciliationResult            ReconciliationResult?
+
+  @@index([normalizedSettlementRef])
+  @@index([normalizedTransactionRefOnSettlement])
+  @@map("settlements")
+}
+
+// ---------------------------------------------------------------------------
+// Reconciliation results — one row per matched/unmatched transaction<->settlement pair.
+// transactionId or settlementId may be null (orphan settlement = missing payment,
+// unmatched transaction = missing settlement) — see ARCHITECTURE.md Section 5-6.
+// ---------------------------------------------------------------------------
+model ReconciliationResult {
+  id                   String   @id @default(cuid())
+
+  transactionId        String?  @unique @map("transaction_id")
+  transaction          Transaction? @relation(fields: [transactionId], references: [id])
+
+  settlementId         String?  @unique @map("settlement_id")
+  settlement           Settlement?  @relation(fields: [settlementId], references: [id])
+
+  matchStatus          MatchStatus  @map("match_status")
+  reviewStatus         ReviewStatus @default(NOT_REQUIRED) @map("review_status")
+
+  confidence           Decimal  @db.Decimal(5, 2)
+  referenceSimilarity  Decimal? @db.Decimal(5, 2) @map("reference_similarity")
+  amountSimilarity     Decimal? @db.Decimal(5, 2) @map("amount_similarity")
+  dateSimilarity       Decimal? @db.Decimal(5, 2) @map("date_similarity")
+
+  reviewedAt           DateTime? @map("reviewed_at")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  exceptions           FinanceException[]
+
+  @@index([matchStatus])
+  @@index([reviewStatus])
+  @@map("reconciliation_results")
+}
+
+enum MatchStatus {
+  MATCHED
+  UNMATCHED
+  MISSING_SETTLEMENT
+  AMOUNT_MISMATCH
+
+  @@map("match_status_enum")
+}
+
+enum ReviewStatus {
+  NOT_REQUIRED
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+
+  @@map("review_status_enum")
+}
+
+// ---------------------------------------------------------------------------
+// Finance exceptions — flagged issues surfaced from a reconciliation result
+// ---------------------------------------------------------------------------
+model FinanceException {
+  id                     String   @id @default(cuid())
+
+  reconciliationResultId String?  @map("reconciliation_result_id")
+  reconciliationResult   ReconciliationResult? @relation(fields: [reconciliationResultId], references: [id])
+
+  exceptionType          ExceptionType   @map("exception_type")
+  severity               Severity
+  description            String
+  aiExplanation          String?  @map("ai_explanation")
+  status                 ExceptionStatus @default(OPEN)
+
+  createdAt              DateTime  @default(now()) @map("created_at")
+  resolvedAt              DateTime? @map("resolved_at")
+
+  @@index([exceptionType])
+  @@index([severity])
+  @@index([status])
+  @@map("finance_exceptions")
+}
+
+enum ExceptionType {
+  AMOUNT_MISMATCH
+  MISSING_SETTLEMENT
+  MISSING_PAYMENT
+  DUPLICATE_TRANSACTION
+  PENDING_TRANSACTION
+  INVALID_SETTLEMENT_CALCULATION
+
+  @@map("exception_type_enum")
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+
+  @@map("severity_enum")
+}
+
+enum ExceptionStatus {
+  OPEN
+  RESOLVED
+
+  @@map("exception_status_enum")
+}

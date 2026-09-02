@@ -48,6 +48,46 @@ deals). Caught by testing against the real eval set's full candidate pool, not
 hand-picked one-pair fixtures — a two-candidate unit test would never have
 surfaced a collision that only shows up with dozens of competing candidates.
 
+## 2026-09-02 — Day 3
+
+**`prisma dev`'s local Postgres proxy breaks under 2+ genuinely simultaneous
+connections.** `/dashboard` fired 7 queries via `Promise.all` and consistently
+failed on the 3rd one with `P1017 ConnectionClosed` — reproducible outside
+Next.js too, and always at the same array index regardless of which query was
+there (confirmed by reordering). Root cause isn't the query, the model, or pool
+sizing (`max: 5` didn't help) — it's specifically *simultaneous new connection
+establishment* against the local dev proxy (a preview tool, `prisma dev
+v0.16.28`). Fixed by capping the adapter's pool at `max: 1` in `src/lib/db.ts`,
+which serializes all DB access through one connection — a fine tradeoff for a
+single-demo-user hackathon app, not something to ship to real production
+traffic without revisiting. Re-verified every prior test script still passes
+after the change.
+
+**Two pages were silently static-prerendered at build time.** `/dashboard` and
+`/review` query Prisma directly with no `fetch()`/dynamic-API usage for Next.js
+to key off, so without an explicit signal they got frozen into build-time HTML
+— the review queue would never have updated after a deploy. Not caught by
+`npm run build` type-checking; only visible in the route table's `○` vs `ƒ`
+column. Fixed with `export const dynamic = "force-dynamic"` on both.
+
+**A shadcn-generated CSS variable was self-referential.** `globals.css` shipped
+`--font-sans: var(--font-sans)` — resolves to nothing, so every page silently
+fell back to the browser's default serif font. Only visible in a real
+screenshot, not in a build log or a passing test. Fixed to point at the actual
+Geist variable (`--font-geist-sans`), matching the working `--font-mono` line
+right next to it.
+
+**Long exception descriptions overlapped the adjacent table columns.** shadcn's
+`TableCell` defaults to `whitespace-nowrap`; a `max-w-md` without an explicit
+`whitespace-normal` override doesn't wrap, it just visually spills into the
+next column. Caught the same way — a real screenshot, not the build.
+
+All four of these were invisible to `tsc`, `next build`, and every prior
+integration test — they only surfaced by actually starting the dev server,
+loading pages in a real headless browser (Playwright), and looking at the
+screenshots. That's now part of how every UI change in this project gets
+verified, not optional polish.
+
 **First full pipeline run exposed a naive test assumption, not a bug.**
 `scripts/test-exceptions.ts` seeds a real Postgres database from `data/eval/` and
 runs all three stages (`reconciliation.ts` -> `matching.ts` -> `exceptions.ts`) end

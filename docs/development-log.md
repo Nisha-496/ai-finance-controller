@@ -48,6 +48,20 @@ deals). Caught by testing against the real eval set's full candidate pool, not
 hand-picked one-pair fixtures — a two-candidate unit test would never have
 surfaced a collision that only shows up with dozens of competing candidates.
 
+**First full pipeline run exposed a naive test assumption, not a bug.**
+`scripts/test-exceptions.ts` seeds a real Postgres database from `data/eval/` and
+runs all three stages (`reconciliation.ts` -> `matching.ts` -> `exceptions.ts`) end
+to end. Initial assertions expected `MISSING_SETTLEMENT`/`MISSING_PAYMENT`
+exception counts to equal the ground truth's scenario counts directly (6 and 10).
+Actual counts came back higher (17 and 21). Root cause: 11 of 17 `FUZZY_BORDERLINE`
+deals are deliberately marginal and legitimately fail to recover in Stage 4 — and
+correctly cascade into "missing" rather than vanishing (`6 + 11 = 17`,
+`10 + 11 = 21`, exact). Fixed the test to assert the real invariant (every Stage 4
+leftover is accounted for) instead of assuming perfect fuzzy recall. Also added a
+`status != FAILED` filter to both `reconciliation.ts` and `matching.ts`'s queries
+while building this — a failed payment should never compete for a settlement
+match in the first place.
+
 **Data generator produced an accidental cross-deal collision.** `perturbDigits()`
 originally picked a random digit position to simulate a typo. With deal cores only
 1 apart (100000, 100001, ...), a 1-digit perturbation of deal 100055 landed exactly

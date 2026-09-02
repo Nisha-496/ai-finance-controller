@@ -174,7 +174,9 @@ function severityForAmountDiff(absDiff: number): "LOW" | "MEDIUM" | "HIGH" | "CR
 export async function runExactMatchReconciliation(): Promise<ExactMatchResult> {
   const [orders, dbTransactions, dbSettlements] = await Promise.all([
     prisma.order.findMany(),
-    prisma.transaction.findMany({ where: { reconciliationResult: null } }),
+    // FAILED payments never expect a settlement — excluded here so they don't
+    // compete for a match; exceptions.ts's final pass skips them entirely.
+    prisma.transaction.findMany({ where: { reconciliationResult: null, status: { not: "FAILED" } } }),
     prisma.settlement.findMany({ where: { reconciliationResult: null } }),
   ]);
 

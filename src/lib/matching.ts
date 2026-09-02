@@ -154,7 +154,8 @@ export function runFuzzyMatching(
 // transactions/settlements reconciliation.ts left without a result.
 export async function runFuzzyMatchReconciliation(): Promise<FuzzyMatchResult> {
   const [dbTransactions, dbSettlements] = await Promise.all([
-    prisma.transaction.findMany({ where: { reconciliationResult: null } }),
+    // Same FAILED-payment exclusion as reconciliation.ts — see its comment.
+    prisma.transaction.findMany({ where: { reconciliationResult: null, status: { not: "FAILED" } } }),
     prisma.settlement.findMany({ where: { reconciliationResult: null } }),
   ]);
 

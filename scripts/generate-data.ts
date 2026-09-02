@@ -65,14 +65,21 @@ function randomName(rng: Rng): string {
   return `${pick(rng, FIRST_NAMES)} ${pick(rng, LAST_NAMES)}`;
 }
 
-// Swaps a couple of digits to simulate a typo/transposition at a fixed edit distance.
+// Swaps the trailing `count` digits to simulate a typo/transposition. Restricted
+// to the trailing digits (not a random position) so the maximum possible drift is
+// bounded — combined with the spacing in coreForIndex(), a perturbed core can
+// never accidentally land on a different deal's real core. An earlier version
+// perturbed a random digit position, which let a FUZZY_CLOSE deal collide with
+// an unrelated EXACT/FORMAT_VARIANT deal a few indices away and got flagged as a
+// genuine duplicate (correctly, by reconciliation.ts) — corrupting ground truth
+// for both deals. See docs/development-log.md.
 function perturbDigits(core: string, rng: Rng, count: number): string {
   const chars = core.split("");
-  for (let i = 0; i < count; i++) {
-    const idx = randInt(rng, 0, chars.length - 1);
+  const start = chars.length - count;
+  for (let i = start; i < chars.length; i++) {
     let digit = randInt(rng, 0, 9).toString();
-    if (digit === chars[idx]) digit = ((Number(digit) + 1) % 10).toString();
-    chars[idx] = digit;
+    if (digit === chars[i]) digit = ((Number(digit) + 1) % 10).toString();
+    chars[i] = digit;
   }
   return chars.join("");
 }
@@ -165,7 +172,9 @@ function buildDeal(rng: Rng, index: number, baseDate: Date): {
   groundTruth: GroundTruthEntry[];
 } {
   const scenario = pickScenario(rng);
-  const core = String(100000 + index);
+  // *1000 spacing so a trailing-2-digit perturbation (max drift 99) can never
+  // land on a neighboring deal's real core.
+  const core = String(100000 + index * 1000);
   const dealId = `DEAL-${core}`;
   const orderRef = pick(rng, ORDER_REF_STYLES(core));
   const cleanTxnRef = pick(rng, TXN_REF_STYLES(core));
@@ -361,7 +370,7 @@ function buildDeal(rng: Rng, index: number, baseDate: Date): {
   }
 }
 
-function toCsv<T extends Record<string, unknown>>(rows: T[], columns: (keyof T)[]): string {
+function toCsv<T extends object>(rows: T[], columns: (keyof T)[]): string {
   const escape = (v: unknown) => {
     const s = String(v ?? "");
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;

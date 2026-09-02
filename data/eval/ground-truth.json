@@ -9,27 +9,29 @@
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"txn_100600\" vs \"txn_100000\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement reference has a 1-digit typo (\"txn_100006\" vs \"txn_100000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100001",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100001",
-    "transactionRef": "TXN-100001",
+    "dealId": "DEAL-101000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER-101000",
+    "transactionRef": "TXN101000",
     "settlementRefs": [
-      "STL-100001"
+      "STL-101000"
     ],
     "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹3332.87) is ₹128 short of the payment (₹3460.87) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100002",
+    "dealId": "DEAL-102000",
     "scenario": "MISSING_PAYMENT",
     "orderRef": null,
     "transactionRef": null,
     "settlementRefs": [
-      "STL-100002"
+      "STL-102000"
     ],
     "isTruePair": false,
     "expectedExceptions": [
@@ -38,10 +40,10 @@
     "notes": "Settlement exists with no matching payment on our side."
   },
   {
-    "dealId": "DEAL-100003",
+    "dealId": "DEAL-103000",
     "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORD100003",
-    "transactionRef": "txn_100003",
+    "orderRef": "ORD103000",
+    "transactionRef": "txn_103000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -50,195 +52,37 @@
     "notes": "Payment went through but no settlement has arrived yet."
   },
   {
-    "dealId": "DEAL-100004",
+    "dealId": "DEAL-104000",
     "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100004",
-    "transactionRef": "txn_100004",
+    "orderRef": "ORDER-104000",
+    "transactionRef": "txn_104000",
     "settlementRefs": [
-      "STL-100004"
+      "STL-104000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
   },
   {
-    "dealId": "DEAL-100005",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER_100005",
-    "transactionRef": "TXN-100005",
-    "settlementRefs": [
-      "STL-100005"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100006",
+    "dealId": "DEAL-105000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100006",
-    "transactionRef": "txn_100006",
+    "orderRef": "order105000",
+    "transactionRef": "txn_105000",
     "settlementRefs": [
-      "STL-100006"
+      "STL-105000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100006\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"TXN105000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100007",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100007",
-    "transactionRef": "TXN100007",
-    "settlementRefs": [
-      "STL-100007"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹34991.52) is ₹127 short of the payment (₹35118.52) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100008",
-    "scenario": "EXACT",
-    "orderRef": "ORD100008",
-    "transactionRef": "txn_100008",
-    "settlementRefs": [
-      "STL-100008"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100009",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100009",
-    "transactionRef": "TXN-100009",
-    "settlementRefs": [
-      "STL-100009"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100009\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100010",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "order100010",
-    "transactionRef": "TXN100010",
-    "settlementRefs": [
-      "STL-100010"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100010\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100011",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100011",
-    "transactionRef": "txn_100011",
-    "settlementRefs": [
-      "STL-100011"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100012",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER-100012",
-    "transactionRef": "TXN-100012",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100013",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100013",
-    "transactionRef": "TXN-100013",
-    "settlementRefs": [
-      "STL-100013"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100014",
-    "scenario": "EXACT",
-    "orderRef": "ORD100014",
-    "transactionRef": "TXN100014",
-    "settlementRefs": [
-      "STL-100014"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100015",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100015",
-    "transactionRef": "TXN-100015",
-    "settlementRefs": [
-      "STL-100015"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100015\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100016",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORD100016",
-    "transactionRef": "txn_100016",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100017",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER_100017",
-    "transactionRef": "TXN100017",
-    "settlementRefs": [
-      "STL-100017"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100018",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100018",
-    "transactionRef": "txn_100018",
-    "settlementRefs": [
-      "STL-100018"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100018\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100019",
+    "dealId": "DEAL-106000",
     "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "order100019",
-    "transactionRef": "txn_100019",
+    "orderRef": "ORD106000",
+    "transactionRef": "txn_106000",
     "settlementRefs": [
-      "STL-100019",
-      "STL-100019B"
+      "STL-106000",
+      "STL-106000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -247,84 +91,108 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100020",
-    "scenario": "PENDING",
-    "orderRef": "ORDER-100020",
-    "transactionRef": "TXN-100020",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "PENDING_TRANSACTION"
-    ],
-    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
-  },
-  {
-    "dealId": "DEAL-100021",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100021",
-    "transactionRef": "TXN100021",
-    "settlementRefs": [
-      "STL-100021"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100021\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100022",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100022",
-    "transactionRef": "TXN-100022",
-    "settlementRefs": [
-      "STL-100022"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100022\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100023",
-    "scenario": "PENDING",
-    "orderRef": "order100023",
-    "transactionRef": "txn_100023",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "PENDING_TRANSACTION"
-    ],
-    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
-  },
-  {
-    "dealId": "DEAL-100024",
+    "dealId": "DEAL-107000",
     "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100024",
-    "transactionRef": "TXN-100024",
+    "orderRef": "order107000",
+    "transactionRef": "txn_107000",
     "settlementRefs": [
-      "STL-100024"
+      "STL-107000"
     ],
     "isTruePair": true,
     "expectedExceptions": [
       "AMOUNT_MISMATCH"
     ],
-    "notes": "Settlement gross (₹12473.15) is ₹207 short of the payment (₹12680.15) — a real mismatch, not a fee artifact."
+    "notes": "Settlement gross (₹36037.28) is ₹313 short of the payment (₹36350.28) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100025",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "order100025",
-    "transactionRef": "TXN100025",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
+    "dealId": "DEAL-108000",
+    "scenario": "EXACT",
+    "orderRef": "order108000",
+    "transactionRef": "txn_108000",
+    "settlementRefs": [
+      "STL-108000"
     ],
-    "notes": "Payment went through but no settlement has arrived yet."
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100026",
+    "dealId": "DEAL-109000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD109000",
+    "transactionRef": "TXN-109000",
+    "settlementRefs": [
+      "STL-109000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN109000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-110000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "order110000",
+    "transactionRef": "TXN110000",
+    "settlementRefs": [
+      "STL-110000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN110003\" vs \"TXN110000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-111000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER-111000",
+    "transactionRef": "txn_111000",
+    "settlementRefs": [
+      "STL-111000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN-111000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-112000",
+    "scenario": "EXACT",
+    "orderRef": "ORD112000",
+    "transactionRef": "txn_112000",
+    "settlementRefs": [
+      "STL-112000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-113000",
+    "scenario": "EXACT",
+    "orderRef": "ORD113000",
+    "transactionRef": "TXN113000",
+    "settlementRefs": [
+      "STL-113000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-114000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-114000",
+    "transactionRef": "TXN114000",
+    "settlementRefs": [
+      "STL-114000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-115000",
     "scenario": "PENDING",
-    "orderRef": "ORDER-100026",
-    "transactionRef": "TXN-100026",
+    "orderRef": "ORDER-115000",
+    "transactionRef": "TXN-115000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -333,25 +201,193 @@
     "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100027",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER-100027",
-    "transactionRef": "txn_100027",
+    "dealId": "DEAL-116000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
     "settlementRefs": [
-      "STL-100027"
+      "STL-116000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-117000",
+    "scenario": "PENDING",
+    "orderRef": "ORDER-117000",
+    "transactionRef": "TXN-117000",
+    "settlementRefs": [],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "PENDING_TRANSACTION"
+    ],
+    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
+  },
+  {
+    "dealId": "DEAL-118000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "order118000",
+    "transactionRef": "txn_118000",
+    "settlementRefs": [
+      "STL-118000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹49395.36) is ₹274 short of the payment (₹49669.36) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-119000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_119000",
+    "transactionRef": "TXN-119000",
+    "settlementRefs": [
+      "STL-119000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹2722.31) is ₹485 short of the payment (₹3207.31) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-120000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
+    "settlementRefs": [
+      "STL-120000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-121000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD121000",
+    "transactionRef": "TXN-121000",
+    "settlementRefs": [
+      "STL-121000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"txn_100028\" vs \"txn_100027\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement uses \"TXN121000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100028",
-    "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "order100028",
-    "transactionRef": "TXN-100028",
+    "dealId": "DEAL-122000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-122000",
+    "transactionRef": "TXN122000",
     "settlementRefs": [
-      "STL-100028",
-      "STL-100028B"
+      "STL-122000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-123000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_123000",
+    "transactionRef": "txn_123000",
+    "settlementRefs": [
+      "STL-123000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹26520.39) is ₹459 short of the payment (₹26979.39) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-124000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "order124000",
+    "transactionRef": "TXN-124000",
+    "settlementRefs": [
+      "STL-124000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN-124006\" vs \"TXN-124000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-125000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_125000",
+    "transactionRef": "TXN-125000",
+    "settlementRefs": [
+      "STL-125000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-126000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-126000",
+    "transactionRef": "TXN126000",
+    "settlementRefs": [
+      "STL-126000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-127000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORD127000",
+    "transactionRef": "txn_127000",
+    "settlementRefs": [
+      "STL-127000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹42296.98) is ₹124 short of the payment (₹42420.98) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-128000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_128000",
+    "transactionRef": "TXN-128000",
+    "settlementRefs": [
+      "STL-128000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-129000",
+    "scenario": "EXACT",
+    "orderRef": "ORD129000",
+    "transactionRef": "txn_129000",
+    "settlementRefs": [
+      "STL-129000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-130000",
+    "scenario": "DUPLICATE_SETTLEMENT",
+    "orderRef": "ORDER-130000",
+    "transactionRef": "TXN-130000",
+    "settlementRefs": [
+      "STL-130000",
+      "STL-130000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -360,215 +396,73 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100029",
-    "scenario": "EXACT",
-    "orderRef": "ORD100029",
-    "transactionRef": "TXN-100029",
+    "dealId": "DEAL-131000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER_131000",
+    "transactionRef": "TXN-131000",
     "settlementRefs": [
-      "STL-100029"
+      "STL-131000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-132000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-132000",
+    "transactionRef": "TXN-132000",
+    "settlementRefs": [
+      "STL-132000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100030",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100030",
-    "transactionRef": "txn_100030",
+    "dealId": "DEAL-133000",
+    "scenario": "EXACT",
+    "orderRef": "ORD133000",
+    "transactionRef": "TXN-133000",
     "settlementRefs": [
-      "STL-100030"
+      "STL-133000"
     ],
     "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹30516.12) is ₹220 short of the payment (₹30736.12) — a real mismatch, not a fee artifact."
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100031",
+    "dealId": "DEAL-134000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100031",
-    "transactionRef": "TXN-100031",
+    "orderRef": "ORDER-134000",
+    "transactionRef": "TXN134000",
     "settlementRefs": [
-      "STL-100031"
+      "STL-134000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100031\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"txn_134000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100032",
+    "dealId": "DEAL-135000",
     "scenario": "EXACT",
-    "orderRef": "ORD100032",
-    "transactionRef": "TXN-100032",
+    "orderRef": "order135000",
+    "transactionRef": "TXN135000",
     "settlementRefs": [
-      "STL-100032"
+      "STL-135000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100033",
-    "scenario": "EXACT",
-    "orderRef": "ORD100033",
-    "transactionRef": "TXN100033",
-    "settlementRefs": [
-      "STL-100033"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100034",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100034",
-    "transactionRef": "TXN100034",
-    "settlementRefs": [
-      "STL-100034"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100034\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100035",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "order100035",
-    "transactionRef": "TXN-100035",
-    "settlementRefs": [
-      "STL-100035"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100035\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100036",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100036",
-    "transactionRef": "TXN100036",
-    "settlementRefs": [
-      "STL-100036"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100037",
-    "scenario": "MISSING_PAYMENT",
-    "orderRef": null,
-    "transactionRef": null,
-    "settlementRefs": [
-      "STL-100037"
-    ],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_PAYMENT"
-    ],
-    "notes": "Settlement exists with no matching payment on our side."
-  },
-  {
-    "dealId": "DEAL-100038",
-    "scenario": "EXACT",
-    "orderRef": "ORD100038",
-    "transactionRef": "TXN-100038",
-    "settlementRefs": [
-      "STL-100038"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100039",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORD100039",
-    "transactionRef": "TXN-100039",
-    "settlementRefs": [
-      "STL-100039"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN-700039\" vs \"TXN-100039\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100040",
-    "scenario": "MISSING_PAYMENT",
-    "orderRef": null,
-    "transactionRef": null,
-    "settlementRefs": [
-      "STL-100040"
-    ],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_PAYMENT"
-    ],
-    "notes": "Settlement exists with no matching payment on our side."
-  },
-  {
-    "dealId": "DEAL-100041",
-    "scenario": "MISSING_PAYMENT",
-    "orderRef": null,
-    "transactionRef": null,
-    "settlementRefs": [
-      "STL-100041"
-    ],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_PAYMENT"
-    ],
-    "notes": "Settlement exists with no matching payment on our side."
-  },
-  {
-    "dealId": "DEAL-100042",
-    "scenario": "EXACT",
-    "orderRef": "order100042",
-    "transactionRef": "txn_100042",
-    "settlementRefs": [
-      "STL-100042"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100043",
-    "scenario": "MISSING_PAYMENT",
-    "orderRef": null,
-    "transactionRef": null,
-    "settlementRefs": [
-      "STL-100043"
-    ],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_PAYMENT"
-    ],
-    "notes": "Settlement exists with no matching payment on our side."
-  },
-  {
-    "dealId": "DEAL-100044",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER_100044",
-    "transactionRef": "txn_100044",
-    "settlementRefs": [
-      "STL-100044"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"txn_100043\" vs \"txn_100044\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100045",
+    "dealId": "DEAL-136000",
     "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORD100045",
-    "transactionRef": "TXN100045",
+    "orderRef": "ORDER_136000",
+    "transactionRef": "TXN136000",
     "settlementRefs": [
-      "STL-100045",
-      "STL-100045B"
+      "STL-136000",
+      "STL-136000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -577,22 +471,34 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100046",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER_100046",
-    "transactionRef": "txn_100046",
+    "dealId": "DEAL-137000",
+    "scenario": "EXACT",
+    "orderRef": "order137000",
+    "transactionRef": "TXN-137000",
     "settlementRefs": [
-      "STL-100046"
+      "STL-137000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100047",
+    "dealId": "DEAL-138000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER_138000",
+    "transactionRef": "txn_138000",
+    "settlementRefs": [
+      "STL-138000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN138000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-139000",
     "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORD100047",
-    "transactionRef": "txn_100047",
+    "orderRef": "ORDER_139000",
+    "transactionRef": "txn_139000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -601,24 +507,180 @@
     "notes": "Payment went through but no settlement has arrived yet."
   },
   {
-    "dealId": "DEAL-100048",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100048",
-    "transactionRef": "TXN100048",
+    "dealId": "DEAL-140000",
+    "scenario": "EXACT",
+    "orderRef": "order140000",
+    "transactionRef": "txn_140000",
     "settlementRefs": [
-      "STL-100048"
+      "STL-140000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100048\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100049",
+    "dealId": "DEAL-141000",
+    "scenario": "EXACT",
+    "orderRef": "order141000",
+    "transactionRef": "TXN-141000",
+    "settlementRefs": [
+      "STL-141000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-142000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-142000",
+    "transactionRef": "TXN-142000",
+    "settlementRefs": [
+      "STL-142000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-143000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER-143000",
+    "transactionRef": "TXN143000",
+    "settlementRefs": [
+      "STL-143000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN-143000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-144000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORD144000",
+    "transactionRef": "TXN144000",
+    "settlementRefs": [
+      "STL-144000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-145000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORD145000",
+    "transactionRef": "txn_145000",
+    "settlementRefs": [
+      "STL-145000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"txn_145001\" vs \"txn_145000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-146000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER_146000",
+    "transactionRef": "txn_146000",
+    "settlementRefs": [
+      "STL-146000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"txn_146002\" vs \"txn_146000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-147000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "order147000",
+    "transactionRef": "TXN-147000",
+    "settlementRefs": [
+      "STL-147000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN-147008\" vs \"TXN-147000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-148000",
+    "scenario": "EXACT",
+    "orderRef": "order148000",
+    "transactionRef": "TXN148000",
+    "settlementRefs": [
+      "STL-148000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-149000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORD149000",
+    "transactionRef": "txn_149000",
+    "settlementRefs": [
+      "STL-149000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"txn_149001\" vs \"txn_149000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-150000",
+    "scenario": "EXACT",
+    "orderRef": "ORD150000",
+    "transactionRef": "TXN-150000",
+    "settlementRefs": [
+      "STL-150000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-151000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER_151000",
+    "transactionRef": "txn_151000",
+    "settlementRefs": [
+      "STL-151000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN151000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-152000",
+    "scenario": "EXACT",
+    "orderRef": "order152000",
+    "transactionRef": "TXN-152000",
+    "settlementRefs": [
+      "STL-152000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-153000",
+    "scenario": "MISSING_SETTLEMENT",
+    "orderRef": "order153000",
+    "transactionRef": "TXN-153000",
+    "settlementRefs": [],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_SETTLEMENT"
+    ],
+    "notes": "Payment went through but no settlement has arrived yet."
+  },
+  {
+    "dealId": "DEAL-154000",
     "scenario": "MISSING_PAYMENT",
     "orderRef": null,
     "transactionRef": null,
     "settlementRefs": [
-      "STL-100049"
+      "STL-154000"
     ],
     "isTruePair": false,
     "expectedExceptions": [
@@ -627,82 +689,36 @@
     "notes": "Settlement exists with no matching payment on our side."
   },
   {
-    "dealId": "DEAL-100050",
-    "scenario": "EXACT",
-    "orderRef": "ORD100050",
-    "transactionRef": "TXN100050",
+    "dealId": "DEAL-155000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_155000",
+    "transactionRef": "TXN155000",
     "settlementRefs": [
-      "STL-100050"
+      "STL-155000"
     ],
     "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100051",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100051",
-    "transactionRef": "TXN-100051",
-    "settlementRefs": [
-      "STL-100051"
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
     ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
+    "notes": "Settlement gross (₹45114.3) is ₹367 short of the payment (₹45481.3) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100052",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "order100052",
-    "transactionRef": "TXN100052",
-    "settlementRefs": [
-      "STL-100052"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100052\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100053",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100053",
-    "transactionRef": "TXN-100053",
-    "settlementRefs": [
-      "STL-100053"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100054",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100054",
-    "transactionRef": "TXN100054",
-    "settlementRefs": [
-      "STL-100054"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100055",
+    "dealId": "DEAL-156000",
     "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER-100055",
-    "transactionRef": "TXN100055",
+    "orderRef": "ORDER_156000",
+    "transactionRef": "txn_156000",
     "settlementRefs": [
-      "STL-100055"
+      "STL-156000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN100015\" vs \"TXN100055\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement reference has a 1-digit typo (\"txn_156003\" vs \"txn_156000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100056",
+    "dealId": "DEAL-157000",
     "scenario": "PENDING",
-    "orderRef": "ORDER_100056",
-    "transactionRef": "txn_100056",
+    "orderRef": "ORDER_157000",
+    "transactionRef": "txn_157000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -711,200 +727,456 @@
     "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100057",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100057",
-    "transactionRef": "TXN-100057",
-    "settlementRefs": [
-      "STL-100057"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100057\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100058",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "order100058",
-    "transactionRef": "txn_100058",
-    "settlementRefs": [
-      "STL-100058"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹8260.95) is ₹189 short of the payment (₹8449.95) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100059",
-    "scenario": "EXACT",
-    "orderRef": "order100059",
-    "transactionRef": "TXN100059",
-    "settlementRefs": [
-      "STL-100059"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100060",
-    "scenario": "EXACT",
-    "orderRef": "ORD100060",
-    "transactionRef": "txn_100060",
-    "settlementRefs": [
-      "STL-100060"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100061",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100061",
-    "transactionRef": "TXN-100061",
-    "settlementRefs": [
-      "STL-100061"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100061\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100062",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100062",
-    "transactionRef": "txn_100062",
-    "settlementRefs": [
-      "STL-100062"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100062\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100063",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100063",
-    "transactionRef": "TXN100063",
-    "settlementRefs": [
-      "STL-100063"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100063\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100064",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100064",
-    "transactionRef": "TXN100064",
-    "settlementRefs": [
-      "STL-100064"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100065",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100065",
-    "transactionRef": "txn_100065",
-    "settlementRefs": [
-      "STL-100065"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100066",
-    "scenario": "EXACT",
-    "orderRef": "ORD100066",
-    "transactionRef": "txn_100066",
-    "settlementRefs": [
-      "STL-100066"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100067",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100067",
-    "transactionRef": "TXN100067",
-    "settlementRefs": [
-      "STL-100067"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100068",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER-100068",
-    "transactionRef": "txn_100068",
-    "settlementRefs": [
-      "STL-100068"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹26101.05) is ₹217 short of the payment (₹26318.05) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100069",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER-100069",
-    "transactionRef": "txn_100069",
-    "settlementRefs": [
-      "STL-100069"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹12091.16) is ₹137 short of the payment (₹12228.16) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100070",
+    "dealId": "DEAL-158000",
     "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "order100070",
-    "transactionRef": "txn_100070",
+    "orderRef": "ORDER-158000",
+    "transactionRef": "TXN158000",
     "settlementRefs": [
-      "STL-100070"
+      "STL-158000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
   },
   {
-    "dealId": "DEAL-100071",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100071",
-    "transactionRef": "TXN100071",
+    "dealId": "DEAL-159000",
+    "scenario": "EXACT",
+    "orderRef": "order159000",
+    "transactionRef": "TXN159000",
     "settlementRefs": [
-      "STL-100071"
+      "STL-159000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-160000",
+    "scenario": "EXACT",
+    "orderRef": "ORD160000",
+    "transactionRef": "TXN160000",
+    "settlementRefs": [
+      "STL-160000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-161000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-161000",
+    "transactionRef": "TXN-161000",
+    "settlementRefs": [
+      "STL-161000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-162000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER-162000",
+    "transactionRef": "txn_162000",
+    "settlementRefs": [
+      "STL-162000"
     ],
     "isTruePair": true,
     "expectedExceptions": [
       "AMOUNT_MISMATCH"
     ],
-    "notes": "Settlement gross (₹34699.32) is ₹130 short of the payment (₹34829.32) — a real mismatch, not a fee artifact."
+    "notes": "Settlement gross (₹39917.48) is ₹148 short of the payment (₹40065.48) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100072",
+    "dealId": "DEAL-163000",
+    "scenario": "EXACT",
+    "orderRef": "order163000",
+    "transactionRef": "TXN-163000",
+    "settlementRefs": [
+      "STL-163000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-164000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-164000",
+    "transactionRef": "TXN-164000",
+    "settlementRefs": [
+      "STL-164000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-165000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-165000",
+    "transactionRef": "TXN-165000",
+    "settlementRefs": [
+      "STL-165000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-166000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD166000",
+    "transactionRef": "TXN-166000",
+    "settlementRefs": [
+      "STL-166000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_166000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-167000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-167000",
+    "transactionRef": "txn_167000",
+    "settlementRefs": [
+      "STL-167000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-168000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER_168000",
+    "transactionRef": "TXN168000",
+    "settlementRefs": [
+      "STL-168000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN168001\" vs \"TXN168000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-169000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_169000",
+    "transactionRef": "TXN169000",
+    "settlementRefs": [
+      "STL-169000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-170000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "order170000",
+    "transactionRef": "TXN170000",
+    "settlementRefs": [
+      "STL-170000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN170003\" vs \"TXN170000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-171000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "order171000",
+    "transactionRef": "TXN171000",
+    "settlementRefs": [
+      "STL-171000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN-171000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-172000",
+    "scenario": "EXACT",
+    "orderRef": "order172000",
+    "transactionRef": "txn_172000",
+    "settlementRefs": [
+      "STL-172000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-173000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER_173000",
+    "transactionRef": "TXN-173000",
+    "settlementRefs": [
+      "STL-173000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_173000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-174000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_174000",
+    "transactionRef": "txn_174000",
+    "settlementRefs": [
+      "STL-174000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹8941.89) is ₹386 short of the payment (₹9327.89) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-175000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "order175000",
+    "transactionRef": "txn_175000",
+    "settlementRefs": [
+      "STL-175000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-176000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_176000",
+    "transactionRef": "TXN-176000",
+    "settlementRefs": [
+      "STL-176000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-177000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_177000",
+    "transactionRef": "txn_177000",
+    "settlementRefs": [
+      "STL-177000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹20065.71) is ₹347 short of the payment (₹20412.71) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-178000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-178000",
+    "transactionRef": "TXN-178000",
+    "settlementRefs": [
+      "STL-178000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-179000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER-179000",
+    "transactionRef": "TXN179000",
+    "settlementRefs": [
+      "STL-179000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN179004\" vs \"TXN179000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-180000",
+    "scenario": "EXACT",
+    "orderRef": "ORD180000",
+    "transactionRef": "TXN-180000",
+    "settlementRefs": [
+      "STL-180000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-181000",
+    "scenario": "MISSING_SETTLEMENT",
+    "orderRef": "ORDER_181000",
+    "transactionRef": "TXN-181000",
+    "settlementRefs": [],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_SETTLEMENT"
+    ],
+    "notes": "Payment went through but no settlement has arrived yet."
+  },
+  {
+    "dealId": "DEAL-182000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER-182000",
+    "transactionRef": "TXN-182000",
+    "settlementRefs": [
+      "STL-182000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹30000.79) is ₹182 short of the payment (₹30182.79) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-183000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "order183000",
+    "transactionRef": "TXN183000",
+    "settlementRefs": [
+      "STL-183000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-184000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_184000",
+    "transactionRef": "TXN184000",
+    "settlementRefs": [
+      "STL-184000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-185000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "order185000",
+    "transactionRef": "txn_185000",
+    "settlementRefs": [
+      "STL-185000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹1930.77) is ₹493 short of the payment (₹2423.77) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-186000",
+    "scenario": "EXACT",
+    "orderRef": "ORD186000",
+    "transactionRef": "TXN186000",
+    "settlementRefs": [
+      "STL-186000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-187000",
+    "scenario": "EXACT",
+    "orderRef": "order187000",
+    "transactionRef": "TXN187000",
+    "settlementRefs": [
+      "STL-187000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-188000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-188000",
+    "transactionRef": "TXN188000",
+    "settlementRefs": [
+      "STL-188000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-189000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER-189000",
+    "transactionRef": "TXN-189000",
+    "settlementRefs": [
+      "STL-189000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN-189009\" vs \"TXN-189000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-190000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-190000",
+    "transactionRef": "TXN-190000",
+    "settlementRefs": [
+      "STL-190000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-191000",
+    "scenario": "EXACT",
+    "orderRef": "ORD191000",
+    "transactionRef": "TXN-191000",
+    "settlementRefs": [
+      "STL-191000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-192000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORD192000",
+    "transactionRef": "TXN192000",
+    "settlementRefs": [
+      "STL-192000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹20105.71) is ₹356 short of the payment (₹20461.71) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-193000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_193000",
+    "transactionRef": "TXN193000",
+    "settlementRefs": [
+      "STL-193000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-194000",
     "scenario": "MISSING_PAYMENT",
     "orderRef": null,
     "transactionRef": null,
     "settlementRefs": [
-      "STL-100072"
+      "STL-194000"
     ],
     "isTruePair": false,
     "expectedExceptions": [
@@ -913,22 +1185,10 @@
     "notes": "Settlement exists with no matching payment on our side."
   },
   {
-    "dealId": "DEAL-100073",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100073",
-    "transactionRef": "TXN100073",
-    "settlementRefs": [
-      "STL-100073"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100073\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100074",
+    "dealId": "DEAL-195000",
     "scenario": "PENDING",
-    "orderRef": "order100074",
-    "transactionRef": "TXN100074",
+    "orderRef": "ORDER_195000",
+    "transactionRef": "TXN195000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -937,373 +1197,139 @@
     "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100075",
-    "scenario": "MISSING_PAYMENT",
-    "orderRef": null,
-    "transactionRef": null,
-    "settlementRefs": [
-      "STL-100075"
-    ],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_PAYMENT"
-    ],
-    "notes": "Settlement exists with no matching payment on our side."
-  },
-  {
-    "dealId": "DEAL-100076",
-    "scenario": "PENDING",
-    "orderRef": "ORDER_100076",
-    "transactionRef": "txn_100076",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "PENDING_TRANSACTION"
-    ],
-    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
-  },
-  {
-    "dealId": "DEAL-100077",
+    "dealId": "DEAL-196000",
     "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "order100077",
-    "transactionRef": "TXN100077",
+    "orderRef": "order196000",
+    "transactionRef": "txn_196000",
     "settlementRefs": [
-      "STL-100077"
+      "STL-196000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
   },
   {
-    "dealId": "DEAL-100078",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORD100078",
-    "transactionRef": "txn_100078",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100079",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER-100079",
-    "transactionRef": "TXN-100079",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100080",
-    "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORDER_100080",
-    "transactionRef": "txn_100080",
+    "dealId": "DEAL-197000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER-197000",
+    "transactionRef": "txn_197000",
     "settlementRefs": [
-      "STL-100080",
-      "STL-100080B"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "DUPLICATE_TRANSACTION"
-    ],
-    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
-  },
-  {
-    "dealId": "DEAL-100081",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100081",
-    "transactionRef": "txn_100081",
-    "settlementRefs": [
-      "STL-100081"
+      "STL-197000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
+    "notes": "Settlement reference has a 1-digit typo (\"txn_197005\" vs \"txn_197000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100082",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100082",
-    "transactionRef": "TXN100082",
-    "settlementRefs": [
-      "STL-100082"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100083",
-    "scenario": "EXACT",
-    "orderRef": "order100083",
-    "transactionRef": "TXN-100083",
-    "settlementRefs": [
-      "STL-100083"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100084",
+    "dealId": "DEAL-198000",
     "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORD100084",
-    "transactionRef": "TXN100084",
+    "orderRef": "ORDER-198000",
+    "transactionRef": "TXN198000",
     "settlementRefs": [
-      "STL-100084"
+      "STL-198000"
     ],
     "isTruePair": true,
     "expectedExceptions": [
       "AMOUNT_MISMATCH"
     ],
-    "notes": "Settlement gross (₹22408.92) is ₹195 short of the payment (₹22603.92) — a real mismatch, not a fee artifact."
+    "notes": "Settlement gross (₹7003.44) is ₹396 short of the payment (₹7399.44) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100085",
-    "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORDER-100085",
-    "transactionRef": "txn_100085",
-    "settlementRefs": [
-      "STL-100085",
-      "STL-100085B"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "DUPLICATE_TRANSACTION"
-    ],
-    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
-  },
-  {
-    "dealId": "DEAL-100086",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "order100086",
-    "transactionRef": "TXN100086",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100087",
-    "scenario": "PENDING",
-    "orderRef": "order100087",
-    "transactionRef": "txn_100087",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "PENDING_TRANSACTION"
-    ],
-    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
-  },
-  {
-    "dealId": "DEAL-100088",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER_100088",
-    "transactionRef": "TXN100088",
-    "settlementRefs": [
-      "STL-100088"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN103088\" vs \"TXN100088\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100089",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100089",
-    "transactionRef": "TXN100089",
-    "settlementRefs": [
-      "STL-100089"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100089\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100090",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORD100090",
-    "transactionRef": "txn_100090",
-    "settlementRefs": [
-      "STL-100090"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"txn_107090\" vs \"txn_100090\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100091",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100091",
-    "transactionRef": "txn_100091",
-    "settlementRefs": [
-      "STL-100091"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100092",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100092",
-    "transactionRef": "TXN100092",
-    "settlementRefs": [
-      "STL-100092"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100093",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100093",
-    "transactionRef": "TXN-100093",
-    "settlementRefs": [
-      "STL-100093"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100094",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER_100094",
-    "transactionRef": "txn_100094",
-    "settlementRefs": [
-      "STL-100094"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100095",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100095",
-    "transactionRef": "TXN-100095",
-    "settlementRefs": [
-      "STL-100095"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100096",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100096",
-    "transactionRef": "TXN100096",
-    "settlementRefs": [
-      "STL-100096"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100097",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100097",
-    "transactionRef": "TXN100097",
-    "settlementRefs": [
-      "STL-100097"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100098",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100098",
-    "transactionRef": "txn_100098",
-    "settlementRefs": [
-      "STL-100098"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100099",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100099",
-    "transactionRef": "txn_100099",
-    "settlementRefs": [
-      "STL-100099"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100100",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100100",
-    "transactionRef": "txn_100100",
-    "settlementRefs": [
-      "STL-100100"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100100\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100101",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100101",
-    "transactionRef": "TXN-100101",
-    "settlementRefs": [
-      "STL-100101"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100101\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100102",
-    "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "order100102",
-    "transactionRef": "txn_100102",
-    "settlementRefs": [
-      "STL-100102",
-      "STL-100102B"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "DUPLICATE_TRANSACTION"
-    ],
-    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
-  },
-  {
-    "dealId": "DEAL-100103",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100103",
-    "transactionRef": "TXN100103",
-    "settlementRefs": [
-      "STL-100103"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100103\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100104",
+    "dealId": "DEAL-199000",
     "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER-100104",
-    "transactionRef": "txn_100104",
+    "orderRef": "ORDER-199000",
+    "transactionRef": "TXN199000",
     "settlementRefs": [
-      "STL-100104"
+      "STL-199000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹6430.3) is ₹187 short of the payment (₹6617.3) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-200000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_200000",
+    "transactionRef": "txn_200000",
+    "settlementRefs": [
+      "STL-200000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-201000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_201000",
+    "transactionRef": "txn_201000",
+    "settlementRefs": [
+      "STL-201000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-202000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD202000",
+    "transactionRef": "txn_202000",
+    "settlementRefs": [
+      "STL-202000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN-202000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-203000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD203000",
+    "transactionRef": "TXN-203000",
+    "settlementRefs": [
+      "STL-203000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN203000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-204000",
+    "scenario": "DUPLICATE_SETTLEMENT",
+    "orderRef": "order204000",
+    "transactionRef": "txn_204000",
+    "settlementRefs": [
+      "STL-204000",
+      "STL-204000B"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "DUPLICATE_TRANSACTION"
+    ],
+    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
+  },
+  {
+    "dealId": "DEAL-205000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER_205000",
+    "transactionRef": "TXN205000",
+    "settlementRefs": [
+      "STL-205000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN-205000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-206000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER-206000",
+    "transactionRef": "txn_206000",
+    "settlementRefs": [
+      "STL-206000"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -1312,34 +1338,34 @@
     "notes": "Settlement gross (₹28485.91) is ₹224 short of the payment (₹28709.91) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100105",
+    "dealId": "DEAL-207000",
     "scenario": "EXACT",
-    "orderRef": "ORDER-100105",
-    "transactionRef": "TXN100105",
+    "orderRef": "ORDER-207000",
+    "transactionRef": "TXN207000",
     "settlementRefs": [
-      "STL-100105"
+      "STL-207000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100106",
+    "dealId": "DEAL-208000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100106",
-    "transactionRef": "TXN-100106",
+    "orderRef": "ORDER-208000",
+    "transactionRef": "TXN-208000",
     "settlementRefs": [
-      "STL-100106"
+      "STL-208000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100106\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"txn_208000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100107",
+    "dealId": "DEAL-209000",
     "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "order100107",
-    "transactionRef": "TXN100107",
+    "orderRef": "order209000",
+    "transactionRef": "TXN209000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -1348,121 +1374,85 @@
     "notes": "Payment went through but no settlement has arrived yet."
   },
   {
-    "dealId": "DEAL-100108",
+    "dealId": "DEAL-210000",
     "scenario": "EXACT",
-    "orderRef": "ORD100108",
-    "transactionRef": "txn_100108",
+    "orderRef": "ORD210000",
+    "transactionRef": "txn_210000",
     "settlementRefs": [
-      "STL-100108"
+      "STL-210000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100109",
+    "dealId": "DEAL-211000",
     "scenario": "EXACT",
-    "orderRef": "ORDER-100109",
-    "transactionRef": "txn_100109",
+    "orderRef": "ORDER-211000",
+    "transactionRef": "txn_211000",
     "settlementRefs": [
-      "STL-100109"
+      "STL-211000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100110",
+    "dealId": "DEAL-212000",
     "scenario": "EXACT",
-    "orderRef": "order100110",
-    "transactionRef": "TXN-100110",
+    "orderRef": "order212000",
+    "transactionRef": "TXN-212000",
     "settlementRefs": [
-      "STL-100110"
+      "STL-212000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100111",
+    "dealId": "DEAL-213000",
     "scenario": "EXACT",
-    "orderRef": "ORD100111",
-    "transactionRef": "TXN100111",
+    "orderRef": "ORD213000",
+    "transactionRef": "TXN213000",
     "settlementRefs": [
-      "STL-100111"
+      "STL-213000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100112",
+    "dealId": "DEAL-214000",
     "scenario": "EXACT",
-    "orderRef": "ORD100112",
-    "transactionRef": "txn_100112",
+    "orderRef": "ORD214000",
+    "transactionRef": "txn_214000",
     "settlementRefs": [
-      "STL-100112"
+      "STL-214000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100113",
+    "dealId": "DEAL-215000",
     "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER_100113",
-    "transactionRef": "TXN100113",
+    "orderRef": "ORDER_215000",
+    "transactionRef": "TXN215000",
     "settlementRefs": [
-      "STL-100113"
+      "STL-215000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN900113\" vs \"TXN100113\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement reference has a 1-digit typo (\"TXN215001\" vs \"TXN215000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100114",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "order100114",
-    "transactionRef": "TXN100114",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100115",
-    "scenario": "EXACT",
-    "orderRef": "ORD100115",
-    "transactionRef": "TXN100115",
-    "settlementRefs": [
-      "STL-100115"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100116",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100116",
-    "transactionRef": "TXN-100116",
-    "settlementRefs": [
-      "STL-100116"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100117",
+    "dealId": "DEAL-216000",
     "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORDER_100117",
-    "transactionRef": "TXN100117",
+    "orderRef": "ORD216000",
+    "transactionRef": "TXN-216000",
     "settlementRefs": [
-      "STL-100117",
-      "STL-100117B"
+      "STL-216000",
+      "STL-216000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -1471,34 +1461,10 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100118",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100118",
-    "transactionRef": "TXN-100118",
-    "settlementRefs": [
-      "STL-100118"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100119",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100119",
-    "transactionRef": "TXN100119",
-    "settlementRefs": [
-      "STL-100119"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100120",
+    "dealId": "DEAL-217000",
     "scenario": "PENDING",
-    "orderRef": "ORDER_100120",
-    "transactionRef": "txn_100120",
+    "orderRef": "ORDER_217000",
+    "transactionRef": "TXN-217000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -1507,221 +1473,25 @@
     "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100121",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORD100121",
-    "transactionRef": "TXN100121",
-    "settlementRefs": [
-      "STL-100121"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN100221\" vs \"TXN100121\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100122",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER-100122",
-    "transactionRef": "TXN100122",
-    "settlementRefs": [
-      "STL-100122"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN100522\" vs \"TXN100122\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100123",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER-100123",
-    "transactionRef": "txn_100123",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100124",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100124",
-    "transactionRef": "TXN-100124",
-    "settlementRefs": [
-      "STL-100124"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100125",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100125",
-    "transactionRef": "TXN100125",
-    "settlementRefs": [
-      "STL-100125"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100126",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100126",
-    "transactionRef": "TXN100126",
-    "settlementRefs": [
-      "STL-100126"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹28306.46) is ₹330 short of the payment (₹28636.46) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100127",
+    "dealId": "DEAL-218000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100127",
-    "transactionRef": "TXN-100127",
+    "orderRef": "ORDER_218000",
+    "transactionRef": "TXN218000",
     "settlementRefs": [
-      "STL-100127"
+      "STL-218000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100127\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"TXN-218000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100128",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100128",
-    "transactionRef": "txn_100128",
-    "settlementRefs": [
-      "STL-100128"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100129",
-    "scenario": "EXACT",
-    "orderRef": "order100129",
-    "transactionRef": "TXN-100129",
-    "settlementRefs": [
-      "STL-100129"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100130",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100130",
-    "transactionRef": "txn_100130",
-    "settlementRefs": [
-      "STL-100130"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100131",
-    "scenario": "EXACT",
-    "orderRef": "ORD100131",
-    "transactionRef": "TXN100131",
-    "settlementRefs": [
-      "STL-100131"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100132",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100132",
-    "transactionRef": "txn_100132",
-    "settlementRefs": [
-      "STL-100132"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100133",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100133",
-    "transactionRef": "txn_100133",
-    "settlementRefs": [
-      "STL-100133"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100134",
-    "scenario": "EXACT",
-    "orderRef": "order100134",
-    "transactionRef": "TXN100134",
-    "settlementRefs": [
-      "STL-100134"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100135",
-    "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORD100135",
-    "transactionRef": "TXN-100135",
-    "settlementRefs": [
-      "STL-100135"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN-100185\" vs \"TXN-100135\") — should still be recovered, likely via fuzzy match."
-  },
-  {
-    "dealId": "DEAL-100136",
-    "scenario": "EXACT",
-    "orderRef": "order100136",
-    "transactionRef": "TXN100136",
-    "settlementRefs": [
-      "STL-100136"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100137",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100137",
-    "transactionRef": "txn_100137",
-    "settlementRefs": [
-      "STL-100137"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹7732.03) is ₹448 short of the payment (₹8180.03) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100138",
+    "dealId": "DEAL-219000",
     "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORDER-100138",
-    "transactionRef": "TXN100138",
+    "orderRef": "ORDER_219000",
+    "transactionRef": "TXN219000",
     "settlementRefs": [
-      "STL-100138",
-      "STL-100138B"
+      "STL-219000",
+      "STL-219000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -1730,415 +1500,321 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100139",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "order100139",
-    "transactionRef": "txn_100139",
+    "dealId": "DEAL-220000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-220000",
+    "transactionRef": "TXN-220000",
     "settlementRefs": [
-      "STL-100139"
+      "STL-220000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100139\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100140",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100140",
-    "transactionRef": "TXN100140",
+    "dealId": "DEAL-221000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-221000",
+    "transactionRef": "TXN221000",
     "settlementRefs": [
-      "STL-100140"
+      "STL-221000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100140\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100141",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER_100141",
-    "transactionRef": "TXN-100141",
-    "settlementRefs": [
-      "STL-100141"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Settlement uses \"txn_100141\" for the same transaction — normalization should still resolve this as exact."
-  },
-  {
-    "dealId": "DEAL-100142",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER-100142",
-    "transactionRef": "txn_100142",
-    "settlementRefs": [
-      "STL-100142"
-    ],
-    "isTruePair": true,
+    "dealId": "DEAL-222000",
+    "scenario": "PENDING",
+    "orderRef": "ORDER_222000",
+    "transactionRef": "txn_222000",
+    "settlementRefs": [],
+    "isTruePair": false,
     "expectedExceptions": [
-      "AMOUNT_MISMATCH"
+      "PENDING_TRANSACTION"
     ],
-    "notes": "Settlement gross (₹47982.92) is ₹59 short of the payment (₹48041.92) — a real mismatch, not a fee artifact."
+    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100143",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100143",
-    "transactionRef": "txn_100143",
-    "settlementRefs": [
-      "STL-100143"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100144",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100144",
-    "transactionRef": "txn_100144",
-    "settlementRefs": [
-      "STL-100144"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹41720.09) is ₹423 short of the payment (₹42143.09) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100145",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100145",
-    "transactionRef": "txn_100145",
-    "settlementRefs": [
-      "STL-100145"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100146",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100146",
-    "transactionRef": "TXN100146",
-    "settlementRefs": [
-      "STL-100146"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100147",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100147",
-    "transactionRef": "txn_100147",
-    "settlementRefs": [
-      "STL-100147"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹31812.29) is ₹341 short of the payment (₹32153.29) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100148",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100148",
-    "transactionRef": "txn_100148",
-    "settlementRefs": [
-      "STL-100148"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100149",
-    "scenario": "EXACT",
-    "orderRef": "ORD100149",
-    "transactionRef": "txn_100149",
-    "settlementRefs": [
-      "STL-100149"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100150",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORD100150",
-    "transactionRef": "TXN-100150",
-    "settlementRefs": [
-      "STL-100150"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
-  },
-  {
-    "dealId": "DEAL-100151",
-    "scenario": "EXACT",
-    "orderRef": "order100151",
-    "transactionRef": "txn_100151",
-    "settlementRefs": [
-      "STL-100151"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100152",
+    "dealId": "DEAL-223000",
     "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORDER_100152",
-    "transactionRef": "txn_100152",
+    "orderRef": "ORD223000",
+    "transactionRef": "TXN223000",
     "settlementRefs": [
-      "STL-100152"
+      "STL-223000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"txn_100252\" vs \"txn_100152\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement reference has a 1-digit typo (\"TXN223005\" vs \"TXN223000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100153",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER-100153",
-    "transactionRef": "TXN100153",
-    "settlementRefs": [
-      "STL-100153"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹39946.06) is ₹489 short of the payment (₹40435.06) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100154",
+    "dealId": "DEAL-224000",
     "scenario": "EXACT",
-    "orderRef": "order100154",
-    "transactionRef": "TXN-100154",
+    "orderRef": "order224000",
+    "transactionRef": "TXN224000",
     "settlementRefs": [
-      "STL-100154"
+      "STL-224000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100155",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100155",
-    "transactionRef": "TXN-100155",
+    "dealId": "DEAL-225000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "order225000",
+    "transactionRef": "txn_225000",
     "settlementRefs": [
-      "STL-100155"
+      "STL-225000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
+    "notes": "Settlement reference has a 1-digit typo (\"txn_225007\" vs \"txn_225000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100156",
-    "scenario": "EXACT",
-    "orderRef": "ORDER_100156",
-    "transactionRef": "TXN-100156",
-    "settlementRefs": [
-      "STL-100156"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100157",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORDER_100157",
-    "transactionRef": "TXN100157",
-    "settlementRefs": [
-      "STL-100157"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹22048.06) is ₹364 short of the payment (₹22412.06) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100158",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER-100158",
-    "transactionRef": "TXN-100158",
+    "dealId": "DEAL-226000",
+    "scenario": "PENDING",
+    "orderRef": "order226000",
+    "transactionRef": "TXN226000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
-      "MISSING_SETTLEMENT"
+      "PENDING_TRANSACTION"
     ],
-    "notes": "Payment went through but no settlement has arrived yet."
+    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
   },
   {
-    "dealId": "DEAL-100159",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORD100159",
-    "transactionRef": "TXN100159",
-    "settlementRefs": [
-      "STL-100159"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹17840.53) is ₹104 short of the payment (₹17944.53) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100160",
+    "dealId": "DEAL-227000",
     "scenario": "EXACT",
-    "orderRef": "order100160",
-    "transactionRef": "TXN100160",
+    "orderRef": "ORD227000",
+    "transactionRef": "TXN227000",
     "settlementRefs": [
-      "STL-100160"
+      "STL-227000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100161",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER_100161",
-    "transactionRef": "TXN-100161",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100162",
-    "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORD100162",
-    "transactionRef": "TXN100162",
-    "settlementRefs": [],
-    "isTruePair": false,
-    "expectedExceptions": [
-      "MISSING_SETTLEMENT"
-    ],
-    "notes": "Payment went through but no settlement has arrived yet."
-  },
-  {
-    "dealId": "DEAL-100163",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORD100163",
-    "transactionRef": "TXN100163",
-    "settlementRefs": [
-      "STL-100163"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [
-      "AMOUNT_MISMATCH"
-    ],
-    "notes": "Settlement gross (₹383.49) is ₹348 short of the payment (₹731.49) — a real mismatch, not a fee artifact."
-  },
-  {
-    "dealId": "DEAL-100164",
+    "dealId": "DEAL-228000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100164",
-    "transactionRef": "TXN100164",
+    "orderRef": "ORD228000",
+    "transactionRef": "txn_228000",
     "settlementRefs": [
-      "STL-100164"
+      "STL-228000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100164\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"TXN-228000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100165",
-    "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORD100165",
-    "transactionRef": "TXN-100165",
+    "dealId": "DEAL-229000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
     "settlementRefs": [
-      "STL-100165"
+      "STL-229000"
     ],
-    "isTruePair": true,
+    "isTruePair": false,
     "expectedExceptions": [
-      "AMOUNT_MISMATCH"
+      "MISSING_PAYMENT"
     ],
-    "notes": "Settlement gross (₹18994.62) is ₹98 short of the payment (₹19092.62) — a real mismatch, not a fee artifact."
+    "notes": "Settlement exists with no matching payment on our side."
   },
   {
-    "dealId": "DEAL-100166",
+    "dealId": "DEAL-230000",
     "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORDER-100166",
-    "transactionRef": "TXN100166",
+    "orderRef": "order230000",
+    "transactionRef": "TXN230000",
     "settlementRefs": [
-      "STL-100166"
+      "STL-230000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN-100166\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement uses \"TXN-230000\" for the same transaction — normalization should still resolve this as exact."
   },
   {
-    "dealId": "DEAL-100167",
-    "scenario": "EXACT",
-    "orderRef": "order100167",
-    "transactionRef": "TXN-100167",
-    "settlementRefs": [
-      "STL-100167"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100168",
+    "dealId": "DEAL-231000",
     "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER-100168",
-    "transactionRef": "txn_100168",
+    "orderRef": "ORDER-231000",
+    "transactionRef": "TXN231000",
     "settlementRefs": [
-      "STL-100168"
+      "STL-231000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
   },
   {
-    "dealId": "DEAL-100169",
+    "dealId": "DEAL-232000",
     "scenario": "AMOUNT_MISMATCH",
-    "orderRef": "ORD100169",
-    "transactionRef": "TXN-100169",
+    "orderRef": "ORDER_232000",
+    "transactionRef": "TXN-232000",
     "settlementRefs": [
-      "STL-100169"
+      "STL-232000"
     ],
     "isTruePair": true,
     "expectedExceptions": [
       "AMOUNT_MISMATCH"
     ],
-    "notes": "Settlement gross (₹19139.6) is ₹156 short of the payment (₹19295.6) — a real mismatch, not a fee artifact."
+    "notes": "Settlement gross (₹24967.41) is ₹159 short of the payment (₹25126.41) — a real mismatch, not a fee artifact."
   },
   {
-    "dealId": "DEAL-100170",
-    "scenario": "EXACT",
-    "orderRef": "ORD100170",
-    "transactionRef": "TXN100170",
+    "dealId": "DEAL-233000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
     "settlementRefs": [
-      "STL-100170"
+      "STL-233000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-234000",
+    "scenario": "EXACT",
+    "orderRef": "ORD234000",
+    "transactionRef": "TXN234000",
+    "settlementRefs": [
+      "STL-234000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100171",
-    "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORDER-100171",
-    "transactionRef": "TXN-100171",
+    "dealId": "DEAL-235000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
     "settlementRefs": [
-      "STL-100171",
-      "STL-100171B"
+      "STL-235000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-236000",
+    "scenario": "EXACT",
+    "orderRef": "order236000",
+    "transactionRef": "txn_236000",
+    "settlementRefs": [
+      "STL-236000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-237000",
+    "scenario": "EXACT",
+    "orderRef": "order237000",
+    "transactionRef": "txn_237000",
+    "settlementRefs": [
+      "STL-237000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-238000",
+    "scenario": "EXACT",
+    "orderRef": "order238000",
+    "transactionRef": "TXN238000",
+    "settlementRefs": [
+      "STL-238000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-239000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORD239000",
+    "transactionRef": "TXN239000",
+    "settlementRefs": [
+      "STL-239000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"TXN239001\" vs \"TXN239000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-240000",
+    "scenario": "EXACT",
+    "orderRef": "ORD240000",
+    "transactionRef": "TXN-240000",
+    "settlementRefs": [
+      "STL-240000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-241000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER-241000",
+    "transactionRef": "txn_241000",
+    "settlementRefs": [
+      "STL-241000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-242000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORD242000",
+    "transactionRef": "txn_242000",
+    "settlementRefs": [
+      "STL-242000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"txn_242004\" vs \"txn_242000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-243000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-243000",
+    "transactionRef": "TXN243000",
+    "settlementRefs": [
+      "STL-243000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-244000",
+    "scenario": "EXACT",
+    "orderRef": "ORD244000",
+    "transactionRef": "txn_244000",
+    "settlementRefs": [
+      "STL-244000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-245000",
+    "scenario": "DUPLICATE_SETTLEMENT",
+    "orderRef": "ORDER-245000",
+    "transactionRef": "TXN-245000",
+    "settlementRefs": [
+      "STL-245000",
+      "STL-245000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -2147,25 +1823,13 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100172",
-    "scenario": "EXACT",
-    "orderRef": "order100172",
-    "transactionRef": "TXN-100172",
-    "settlementRefs": [
-      "STL-100172"
-    ],
-    "isTruePair": true,
-    "expectedExceptions": [],
-    "notes": "Clean exact match across all three sources."
-  },
-  {
-    "dealId": "DEAL-100173",
+    "dealId": "DEAL-246000",
     "scenario": "DUPLICATE_SETTLEMENT",
-    "orderRef": "ORD100173",
-    "transactionRef": "txn_100173",
+    "orderRef": "ORDER-246000",
+    "transactionRef": "txn_246000",
     "settlementRefs": [
-      "STL-100173",
-      "STL-100173B"
+      "STL-246000",
+      "STL-246000B"
     ],
     "isTruePair": true,
     "expectedExceptions": [
@@ -2174,46 +1838,136 @@
     "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
   },
   {
-    "dealId": "DEAL-100174",
+    "dealId": "DEAL-247000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
+    "settlementRefs": [
+      "STL-247000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-248000",
     "scenario": "FUZZY_CLOSE",
-    "orderRef": "ORD100174",
-    "transactionRef": "TXN-100174",
+    "orderRef": "ORDER_248000",
+    "transactionRef": "TXN248000",
     "settlementRefs": [
-      "STL-100174"
+      "STL-248000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement reference has a 1-digit typo (\"TXN-800174\" vs \"TXN-100174\") — should still be recovered, likely via fuzzy match."
+    "notes": "Settlement reference has a 1-digit typo (\"TXN248009\" vs \"TXN248000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100175",
-    "scenario": "FORMAT_VARIANT",
-    "orderRef": "ORD100175",
-    "transactionRef": "TXN-100175",
+    "dealId": "DEAL-249000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER_249000",
+    "transactionRef": "TXN-249000",
     "settlementRefs": [
-      "STL-100175"
+      "STL-249000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
-    "notes": "Settlement uses \"TXN100175\" for the same transaction — normalization should still resolve this as exact."
+    "notes": "Settlement reference has a 1-digit typo (\"TXN-249006\" vs \"TXN-249000\") — should still be recovered, likely via fuzzy match."
   },
   {
-    "dealId": "DEAL-100176",
+    "dealId": "DEAL-250000",
     "scenario": "EXACT",
-    "orderRef": "ORDER-100176",
-    "transactionRef": "txn_100176",
+    "orderRef": "ORDER-250000",
+    "transactionRef": "txn_250000",
     "settlementRefs": [
-      "STL-100176"
+      "STL-250000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100177",
+    "dealId": "DEAL-251000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_251000",
+    "transactionRef": "TXN251000",
+    "settlementRefs": [
+      "STL-251000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-252000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-252000",
+    "transactionRef": "TXN-252000",
+    "settlementRefs": [
+      "STL-252000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-253000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER_253000",
+    "transactionRef": "TXN-253000",
+    "settlementRefs": [
+      "STL-253000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-254000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER-254000",
+    "transactionRef": "txn_254000",
+    "settlementRefs": [
+      "STL-254000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹11510.73) is ₹103 short of the payment (₹11613.73) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-255000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER-255000",
+    "transactionRef": "TXN255000",
+    "settlementRefs": [
+      "STL-255000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_255000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-256000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_256000",
+    "transactionRef": "TXN-256000",
+    "settlementRefs": [
+      "STL-256000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹31417.88) is ₹350 short of the payment (₹31767.88) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-257000",
     "scenario": "MISSING_SETTLEMENT",
-    "orderRef": "ORDER-100177",
-    "transactionRef": "TXN-100177",
+    "orderRef": "ORD257000",
+    "transactionRef": "txn_257000",
     "settlementRefs": [],
     "isTruePair": false,
     "expectedExceptions": [
@@ -2222,27 +1976,279 @@
     "notes": "Payment went through but no settlement has arrived yet."
   },
   {
-    "dealId": "DEAL-100178",
-    "scenario": "EXACT",
-    "orderRef": "ORDER-100178",
-    "transactionRef": "txn_100178",
+    "dealId": "DEAL-258000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORD258000",
+    "transactionRef": "txn_258000",
     "settlementRefs": [
-      "STL-100178"
+      "STL-258000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"TXN258000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-259000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "ORDER_259000",
+    "transactionRef": "TXN-259000",
+    "settlementRefs": [
+      "STL-259000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹3772.67) is ₹257 short of the payment (₹4029.67) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-260000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER-260000",
+    "transactionRef": "TXN260000",
+    "settlementRefs": [
+      "STL-260000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_260000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-261000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-261000",
+    "transactionRef": "TXN261000",
+    "settlementRefs": [
+      "STL-261000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Clean exact match across all three sources."
   },
   {
-    "dealId": "DEAL-100179",
-    "scenario": "FUZZY_BORDERLINE",
-    "orderRef": "ORDER_100179",
-    "transactionRef": "TXN100179",
+    "dealId": "DEAL-262000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "order262000",
+    "transactionRef": "TXN262000",
     "settlementRefs": [
-      "STL-100179"
+      "STL-262000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_262000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-263000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER-263000",
+    "transactionRef": "txn_263000",
+    "settlementRefs": [
+      "STL-263000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-264000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORDER_264000",
+    "transactionRef": "txn_264000",
+    "settlementRefs": [
+      "STL-264000"
     ],
     "isTruePair": true,
     "expectedExceptions": [],
     "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-265000",
+    "scenario": "FUZZY_CLOSE",
+    "orderRef": "ORDER-265000",
+    "transactionRef": "txn_265000",
+    "settlementRefs": [
+      "STL-265000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement reference has a 1-digit typo (\"txn_265007\" vs \"txn_265000\") — should still be recovered, likely via fuzzy match."
+  },
+  {
+    "dealId": "DEAL-266000",
+    "scenario": "AMOUNT_MISMATCH",
+    "orderRef": "order266000",
+    "transactionRef": "TXN266000",
+    "settlementRefs": [
+      "STL-266000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "AMOUNT_MISMATCH"
+    ],
+    "notes": "Settlement gross (₹43284.66) is ₹430 short of the payment (₹43714.66) — a real mismatch, not a fee artifact."
+  },
+  {
+    "dealId": "DEAL-267000",
+    "scenario": "DUPLICATE_SETTLEMENT",
+    "orderRef": "order267000",
+    "transactionRef": "TXN-267000",
+    "settlementRefs": [
+      "STL-267000",
+      "STL-267000B"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "DUPLICATE_TRANSACTION"
+    ],
+    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
+  },
+  {
+    "dealId": "DEAL-268000",
+    "scenario": "FORMAT_VARIANT",
+    "orderRef": "ORDER-268000",
+    "transactionRef": "TXN268000",
+    "settlementRefs": [
+      "STL-268000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Settlement uses \"txn_268000\" for the same transaction — normalization should still resolve this as exact."
+  },
+  {
+    "dealId": "DEAL-269000",
+    "scenario": "DUPLICATE_SETTLEMENT",
+    "orderRef": "ORDER-269000",
+    "transactionRef": "TXN-269000",
+    "settlementRefs": [
+      "STL-269000",
+      "STL-269000B"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [
+      "DUPLICATE_TRANSACTION"
+    ],
+    "notes": "Two settlement records both claim the same transaction reference — must be flagged, not auto-matched to either."
+  },
+  {
+    "dealId": "DEAL-270000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_270000",
+    "transactionRef": "TXN270000",
+    "settlementRefs": [
+      "STL-270000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-271000",
+    "scenario": "EXACT",
+    "orderRef": "order271000",
+    "transactionRef": "TXN271000",
+    "settlementRefs": [
+      "STL-271000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-272000",
+    "scenario": "PENDING",
+    "orderRef": "ORD272000",
+    "transactionRef": "txn_272000",
+    "settlementRefs": [],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "PENDING_TRANSACTION"
+    ],
+    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
+  },
+  {
+    "dealId": "DEAL-273000",
+    "scenario": "PENDING",
+    "orderRef": "ORDER-273000",
+    "transactionRef": "TXN-273000",
+    "settlementRefs": [],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "PENDING_TRANSACTION"
+    ],
+    "notes": "Payment is still pending — no settlement expected yet, should not be flagged as missing."
+  },
+  {
+    "dealId": "DEAL-274000",
+    "scenario": "EXACT",
+    "orderRef": "ORD274000",
+    "transactionRef": "TXN274000",
+    "settlementRefs": [
+      "STL-274000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-275000",
+    "scenario": "FUZZY_BORDERLINE",
+    "orderRef": "ORD275000",
+    "transactionRef": "TXN-275000",
+    "settlementRefs": [
+      "STL-275000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Reference has a 2-digit drift and the settlement date is shifted — a genuinely ambiguous case, good review-queue material."
+  },
+  {
+    "dealId": "DEAL-276000",
+    "scenario": "EXACT",
+    "orderRef": "ORDER_276000",
+    "transactionRef": "TXN-276000",
+    "settlementRefs": [
+      "STL-276000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-277000",
+    "scenario": "EXACT",
+    "orderRef": "ORD277000",
+    "transactionRef": "TXN-277000",
+    "settlementRefs": [
+      "STL-277000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
+  },
+  {
+    "dealId": "DEAL-278000",
+    "scenario": "MISSING_PAYMENT",
+    "orderRef": null,
+    "transactionRef": null,
+    "settlementRefs": [
+      "STL-278000"
+    ],
+    "isTruePair": false,
+    "expectedExceptions": [
+      "MISSING_PAYMENT"
+    ],
+    "notes": "Settlement exists with no matching payment on our side."
+  },
+  {
+    "dealId": "DEAL-279000",
+    "scenario": "EXACT",
+    "orderRef": "order279000",
+    "transactionRef": "TXN279000",
+    "settlementRefs": [
+      "STL-279000"
+    ],
+    "isTruePair": true,
+    "expectedExceptions": [],
+    "notes": "Clean exact match across all three sources."
   }
 ]

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { TriangleAlert } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SeverityBadge } from "@/components/status-badge";
 import { ExplainButton } from "@/components/exceptions/explain-button";
+import { PageHeader } from "@/components/page-header";
 import { listExceptions } from "@/lib/queries/exceptions";
 
 const SEVERITIES = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
@@ -21,10 +23,7 @@ export default async function ExceptionsPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Exceptions</h1>
-        <p className="text-sm text-muted-foreground">{total} total.</p>
-      </div>
+      <PageHeader icon={TriangleAlert} title="Exceptions" description={`${total} total.`} />
 
       <form className="flex flex-wrap items-end gap-3" action="/exceptions">
         <div className="flex flex-col gap-1.5">

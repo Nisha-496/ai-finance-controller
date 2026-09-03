@@ -1,6 +1,8 @@
+import { ClipboardCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { listPendingReview } from "@/lib/queries/review";
 import { ReviewActions } from "@/components/review/review-actions";
+import { PageHeader } from "@/components/page-header";
 
 // Same reasoning as dashboard/page.tsx — force dynamic so approvals/rejections
 // are reflected immediately instead of a stale build-time snapshot.
@@ -27,12 +29,11 @@ export default async function ReviewPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Review queue</h1>
-        <p className="text-sm text-muted-foreground">
-          {total} suggested match{total === 1 ? "" : "es"} awaiting approval — confidence 80–94%, never auto-matched.
-        </p>
-      </div>
+      <PageHeader
+        icon={ClipboardCheck}
+        title="Review queue"
+        description={`${total} suggested match${total === 1 ? "" : "es"} awaiting approval — confidence 80–94%, never auto-matched.`}
+      />
 
       {results.length === 0 && (
         <Card>

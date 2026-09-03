@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { Receipt } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MatchStatusBadge } from "@/components/status-badge";
+import { PageHeader } from "@/components/page-header";
 import { listTransactions } from "@/lib/queries/transactions";
 
 const MATCH_STATUSES = ["MATCHED", "UNMATCHED", "MISSING_SETTLEMENT", "AMOUNT_MISMATCH"];
@@ -28,10 +30,7 @@ export default async function TransactionsPage({
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Transactions</h1>
-        <p className="text-sm text-muted-foreground">{total} total.</p>
-      </div>
+      <PageHeader icon={Receipt} title="Transactions" description={`${total} total.`} />
 
       <form className="flex flex-wrap items-end gap-3" action="/transactions">
         <div className="flex flex-col gap-1.5">

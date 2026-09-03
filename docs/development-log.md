@@ -48,6 +48,34 @@ deals). Caught by testing against the real eval set's full candidate pool, not
 hand-picked one-pair fixtures — a two-candidate unit test would never have
 surfaced a collision that only shows up with dozens of competing candidates.
 
+## 2026-09-03 — Day 4
+
+**No budget for OpenAI.** The architecture doc specified OpenAI, and `src/lib/ai.ts`
+was built against it — but there was no money for API credit. Switched to Google
+Gemini's free tier (no billing, just a Google account) via its OpenAI-compatible
+endpoint, so the rest of the code (the `openai` SDK client, the whole prompt/context
+design) didn't need to change — only the base URL, API key env var, and model name.
+
+**Stale model name.** `gemini-2.0-flash` no longer exists — Google's error message
+named the replacement directly (`gemini-3.6-flash`), so no guessing was needed once
+a real API key was in hand to surface the real error.
+
+**Responses were silently truncated mid-sentence.** With `max_tokens: 150`, the
+first live call returned literally one word ("The"). Root cause: this model spends
+part of its token budget on internal reasoning before the visible reply, so a small
+`max_tokens` starves the actual answer. Fixed by raising it to 3000 for both
+`explainException` and `chatWithAssistant` — confirmed via direct calls outside any
+UI that the full, correct explanation now comes back before touching the API routes
+or components at all.
+
+**Confirmed both AI paths live, in a real browser, not just via direct script
+calls.** The exceptions page's "Explain with AI" button and the assistant chat both
+verified end to end with Playwright — actual click, actual network request, actual
+model response rendered and (for explanations) persisted to `aiExplanation` and
+visible again on page reload. The first attempt at this test closed the browser
+after a fixed 6-second wait and looked like a failure; the real issue was the test
+not waiting for the actual response before closing, not the feature.
+
 ## 2026-09-02 — Day 3
 
 **`prisma dev`'s local Postgres proxy breaks under 2+ genuinely simultaneous

@@ -18,7 +18,10 @@ function getClient(): OpenAI {
   return client;
 }
 
-const MODEL = "gemini-2.0-flash";
+const MODEL = "gemini-3.6-flash";
+// This model spends part of its token budget on internal reasoning before the
+// visible reply, so max_tokens needs real headroom above what the answer
+// itself needs — 150-300 silently truncated responses mid-sentence in testing.
 
 // ---------------------------------------------------------------------------
 // Exception explanation
@@ -64,7 +67,7 @@ export async function explainException(input: ExceptionExplanationInput): Promis
     model: MODEL,
     messages: [{ role: "user", content: prompt }],
     temperature: 0.2,
-    max_tokens: 150,
+    max_tokens: 3000,
   });
   return response.choices[0]?.message?.content?.trim() ?? "";
 }
@@ -120,7 +123,7 @@ export async function chatWithAssistant(context: ChatContext, history: ChatMessa
     model: MODEL,
     messages: [{ role: "system", content: buildChatSystemPrompt(context) }, ...history],
     temperature: 0.3,
-    max_tokens: 300,
+    max_tokens: 3000,
   });
   return response.choices[0]?.message?.content?.trim() ?? "";
 }

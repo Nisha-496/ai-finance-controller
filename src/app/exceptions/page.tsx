@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SeverityBadge } from "@/components/status-badge";
+import { ExplainButton } from "@/components/exceptions/explain-button";
 import { listExceptions } from "@/lib/queries/exceptions";
 
 const SEVERITIES = ["CRITICAL", "HIGH", "MEDIUM", "LOW"];
@@ -88,7 +89,10 @@ export default async function ExceptionsPage({
                     <SeverityBadge severity={e.severity} />
                   </TableCell>
                   <TableCell className="text-xs font-medium">{e.exceptionType.replace(/_/g, " ")}</TableCell>
-                  <TableCell className="max-w-md whitespace-normal text-sm text-muted-foreground">{e.description}</TableCell>
+                  <TableCell className="max-w-md whitespace-normal text-sm text-muted-foreground">
+                    <p>{e.description}</p>
+                    <ExplainButton exceptionId={e.id} initialExplanation={e.aiExplanation} />
+                  </TableCell>
                   <TableCell className="font-mono text-xs text-muted-foreground">
                     {e.reconciliationResult?.transaction?.transactionRef ?? e.reconciliationResult?.settlement?.settlementRef ?? "—"}
                   </TableCell>

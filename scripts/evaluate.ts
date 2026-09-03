@@ -5,11 +5,11 @@
 // result against ground-truth.json, and writes docs/metrics-report.md.
 //
 // WARNING: this wipes the dev database, runs the eval set through it, then
-// wipes it again on the way out. If the demo dataset is loaded for UI work
-// (e.g. via scripts/test-api.ts), it will be gone after this runs — re-seed
-// with `npm run script scripts/test-api.ts` afterward.
+// wipes it again on the way out. If the demo dataset is loaded (e.g. for a
+// walkthrough), it will be gone after this runs — restore it with
+// `npm run demo:reset` afterward.
 //
-// Run: npm run script scripts/evaluate.ts
+// Run: npm run eval
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";

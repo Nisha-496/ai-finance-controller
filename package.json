@@ -11,7 +11,9 @@
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
-    "script": "tsx --env-file=.env"
+    "script": "tsx --env-file=.env",
+    "demo:reset": "tsx --env-file=.env scripts/reset-demo.ts",
+    "eval": "tsx --env-file=.env scripts/evaluate.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

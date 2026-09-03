@@ -1,6 +1,6 @@
 # Measured accuracy report
 
-Generated 2026-09-02T07:39:19.157Z by `scripts/evaluate.ts` against `data/eval/` — 180 deals,
+Generated 2026-09-03T14:27:27.197Z by `scripts/evaluate.ts` against `data/eval/` — 180 deals,
 held out and never shown in the live demo. Regenerate anytime with:
 
 ```

@@ -6,6 +6,12 @@ Official bar: *"Throughput plus measured accuracy plus an honest exception list.
 
 Solo build, 4 days.
 
+**Status: complete and live.** Everything described below is built, tested, and
+running — this is documentation of what exists, not a forward-looking plan.
+Repo: [github.com/Nisha-496/ai-finance-controller](https://github.com/Nisha-496/ai-finance-controller).
+Measured results: 100% match precision, 90.7% recall, **0% false auto-match rate**
+on a 180-deal held-out set — see [docs/metrics-report.md](./docs/metrics-report.md).
+
 ---
 
 ## 1. How this maps to actual judging
@@ -34,7 +40,7 @@ The Buildathon scores on four pillars. Everything below is designed against thes
 | Database | PostgreSQL + Prisma ORM |
 | Data processing | CSV parser (papaparse) |
 | Fuzzy matching | Deterministic normalization + similarity scoring + confidence calculation — no LLM involved |
-| AI | OpenAI API — used only for exception explanation, natural-language chat, and (if time allows) forward cash summary — never for matching decisions |
+| AI | Google Gemini (free tier, OpenAI-compatible endpoint) — used only for exception explanation and natural-language chat, never for matching decisions. Originally planned as OpenAI; switched mid-build when there was no budget for paid API credit — no other code changed, since Gemini's endpoint is OpenAI-compatible |
 
 One Next.js repo — keeps a solo 4-day build manageable and keeps "Build Quality" easy to demonstrate (one `git clone`, one `npm run dev`).
 
@@ -167,9 +173,19 @@ Directly answers the submission requirement: *"measured performance metrics on h
   - False-auto-match rate (the number that actually matters for trust — how often a ≥95% AUTO MATCH was wrong)
   - Review-queue accuracy (of items sent to 80–94%, how many a human ultimately approved)
   - Exception detection recall (did it catch every planted mismatch/duplicate/missing settlement)
-- Output: `docs/metrics-report.md` — the concrete numbers for the pitch. This is what turns "it matched these" into "94% precision on auto-match, 100% recall on planted duplicates, 3 false positives out of 250 held-out records."
+- Output: `docs/metrics-report.md` — the concrete numbers for the pitch. This is what turns "it matched these" into a real, checked-in number.
 
-This module gets built once the deterministic core (Stages 1–4) is stable — see Day 2 in the build order — and re-run any time matching logic changes.
+**Actual measured result** (180-deal held-out set, regenerate anytime with `npm run eval`):
+
+| Metric | Value |
+|---|---|
+| True-pair match precision | 100.0% |
+| True-pair match recall | 90.7% |
+| False auto-match rate (of everything auto-matched at ≥95%) | 0.0% (0/86) |
+| Review-queue accuracy | 100.0% (27/27) |
+| Every planted exception type | correctly detected |
+
+This module is built and wired into the standard workflow — re-run with `npm run eval` any time matching logic changes; it always uses the full held-out set, never a sample.
 
 ---
 
@@ -209,7 +225,12 @@ This is the part that gets scored on **AI Judgment** — the pitch explicitly st
 
 ## 10. Application pages
 
-`/dashboard` `/transactions` `/reconciliation` `/exceptions` `/review` `/upload` `/assistant`
+`/dashboard` `/transactions` `/exceptions` `/review` `/upload` `/assistant`
+
+(A separate `/reconciliation` page was in the original page inventory but wasn't
+built — `/transactions` and `/review` together cover match status and the
+confidence breakdown for the tiers that need it. Noted as a natural next
+addition, not a gap that blocks the current scope.)
 
 ## 11. Full API list
 
@@ -235,64 +256,72 @@ Key fields:
 - `reconciliation_results`: `match_status`, `review_status`, `confidence`, `reference_similarity`, `amount_similarity`, `date_similarity` (store the breakdown, not just the final score — needed for the review UI and the evaluation report)
 - `finance_exceptions`: `exception_type`, `severity`, `description`, `ai_explanation`, `status`
 
-## 13. Project structure
+## 13. Project structure (as built)
 
 ```
 ai-finance-controller/
-├── app/
-│   ├── dashboard/ transactions/ reconciliation/
-│   ├── exceptions/ review/ upload/ assistant/
-│   └── api/
-│       ├── upload/ reconcile/ dashboard/
-│       ├── transactions/ exceptions/
-│       ├── reconciliation/review/
-│       └── ai/ chat/ explain/
-├── components/
-│   ├── dashboard/ transactions/ exceptions/ review/ assistant/
-├── lib/
-│   ├── reconciliation.ts  normalization.ts  matching.ts
-│   ├── confidence.ts  exceptions.ts  ai.ts
+├── src/
+│   ├── app/
+│   │   ├── dashboard/ transactions/ exceptions/ review/ upload/ assistant/
+│   │   └── api/
+│   │       ├── upload/ reconcile/ dashboard/
+│   │       ├── transactions/ exceptions/
+│   │       ├── reconciliation/review/  reconciliation/[id]/review/
+│   │       └── ai/explain/  ai/chat/
+│   ├── components/
+│   │   ├── ui/               ← shadcn/ui primitives
+│   │   ├── dashboard/ review/ exceptions/ upload/ assistant/
+│   │   ├── nav.tsx  page-header.tsx  status-badge.tsx
+│   ├── lib/
+│   │   ├── reconciliation.ts  normalization.ts  matching.ts
+│   │   ├── confidence.ts  exceptions.ts  ai.ts  db.ts
+│   │   └── queries/           ← shared data-access, used by pages AND API routes
+│   └── generated/prisma/      ← generated Prisma client (gitignored)
 ├── prisma/
-│   └── schema.prisma
+│   └── schema.prisma           ← 5 tables, both status fields
 ├── data/
 │   ├── demo/       ← sample CSVs shown live (intentional ID/format mismatches)
-│   └── eval/       ← held-out ground-truth set, never shown live
+│   └── eval/       ← held-out ground-truth set (180 deals), never shown live
 ├── scripts/
-│   └── evaluate.ts
+│   ├── generate-data.ts        ← deterministic dataset generator
+│   ├── evaluate.ts             ← npm run eval
+│   ├── reset-demo.ts           ← npm run demo:reset
+│   └── test-*.ts               ← verification scripts, one per module
 └── docs/
-    ├── development-log.md
-    └── metrics-report.md
+    ├── development-log.md      ← real issues, as they happened
+    ├── metrics-report.md       ← regenerated by npm run eval
+    └── pitch-script.md         ← submission video script
 ```
 
 ---
 
-## 14. Build order — 4 days, solo
+## 14. Build order — 4 days, solo (all steps complete)
 
-**Day 1**
+**Day 1** ✅
 1. Next.js project + Prisma schema (all 5 tables, both status fields)
 2. Sample CSVs — demo set *and* held-out eval set with ground-truth labels, deliberate ID-format mismatches and fee-based differences
 3. Normalization logic (`normalization.ts`)
 4. Deterministic exact-match reconciliation engine (`reconciliation.ts`)
 
-**Day 2**
+**Day 2** ✅
 5. Fuzzy matching + confidence formula (`matching.ts`, `confidence.ts`) + match decision policy
 6. Exception detection engine (`exceptions.ts`)
 7. Core APIs: upload, reconcile, dashboard, transactions, exceptions
-   *Checkpoint: full reconciliation + exceptions works end-to-end without AI or review UI.*
+   *Checkpoint reached: full reconciliation + exceptions worked end-to-end without AI or review UI.*
 8. `scripts/evaluate.ts` — first real metrics run against the eval set
 
-**Day 3**
+**Day 3** ✅
 9. Review workflow: `GET /reconciliation/review` + `PATCH /:id/review`
 10. Dashboard + transactions + exceptions + review UI
 11. CSV upload UI
-    *Checkpoint: working demo, AI still not added — deterministic core is provably solid before layering AI on top.*
+    *Checkpoint reached: working demo, AI still not added — deterministic core proven solid before layering AI on top.*
 
-**Day 4 — protected, non-negotiable AI time**
-12. AI explanation layer (`ai.ts`, structured-context-only prompts)
-13. AI finance chat/assistant
-14. Polish: loading states, error handling, demo reset, `development-log.md`, re-run `evaluate.ts` for final numbers, pitch script, record 5-minute pitch video
+**Day 4** ✅ — AI layer + polish
+12. AI explanation layer (`ai.ts`, structured-context-only prompts) — live on Google Gemini's free tier
+13. AI finance chat/assistant — live
+14. Polish: loading states, error handling, `npm run demo:reset`, `docs/development-log.md`, final `npm run eval` numbers, `docs/pitch-script.md`, visual identity pass (brand color, icons, consistent page headers)
 
-If Day 3 runs long: cut UI polish (extra filters, chart variety) before cutting into Day 4. AI Judgment is a scored pillar — it cannot be the thing that gets dropped.
+Remaining: record the 5-minute pitch video.
 
 ---
 
@@ -312,8 +341,8 @@ If Day 3 runs long: cut UI polish (extra filters, chart variety) before cutting 
 
 ## 16. Submission checklist
 
-- [ ] Public repository
-- [ ] 5-minute pitch video
-- [ ] This architecture doc (kept current)
-- [ ] `docs/metrics-report.md` — measured precision/recall/false-match-rate on the held-out set, not cherry-picked demo output
-- [ ] `docs/development-log.md` — real issues, real fixes
+- [x] Public repository — [github.com/Nisha-496/ai-finance-controller](https://github.com/Nisha-496/ai-finance-controller)
+- [ ] 5-minute pitch video — script ready at `docs/pitch-script.md`, recording pending
+- [x] This architecture doc (kept current)
+- [x] `docs/metrics-report.md` — measured precision/recall/false-match-rate on the held-out set, not cherry-picked demo output
+- [x] `docs/development-log.md` — real issues, real fixes, logged as they happened
